@@ -1,0 +1,43 @@
+#!/bin/bash
+
+mkdir ~/keys
+cd ~/keys
+
+#
+# create a private key
+#
+# ssh-keygen -t rsa -N "" -f ~/keys/id_stud
+openssl genrsa -out id_stud 1024
+
+#
+# create a signing request
+#
+openssl req -new -key id_stud -out server_stud.csr \
+  -subj "/C=PT/ST=NY/L=NY/O=Stud Proxy/OU=IT Department/CN=foo.org"
+
+#
+# create a self signed certificate using our signing request
+# and the private key we generated
+#
+openssl x509 -req -days 365 -in server_stud.csr \
+  -signkey ~/keys/id_stud -out server_stud.crt
+
+#
+# add the private key to the pem file
+#
+cat id_stud > /usr/local/etc/stud/stud.pem
+
+#
+# add the self signed certificate to the pem
+#
+cat server_stud.crt >> /usr/local/etc/stud/stud.pem
+
+#
+# add some DH to avoid warning on stud
+#
+openssl dhparam -rand - 1024 >> /usr/local/etc/stud/stud.pem
+
+#
+# cleanup :)
+#
+rm -rf ~/keys

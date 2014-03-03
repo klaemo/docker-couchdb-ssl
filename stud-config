@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mkdir /var/run/stud
+mkdir /usr/local/var/run/stud
+useradd -d /var/run/stud _stud
+chown _stud: /usr/local/etc/stud/stud.pem
+chown _stud: /var/run/stud
+chown -R _stud: /usr/local/var/run/stud /usr/local/etc/stud
+chmod 0770 /usr/local/var/run/stud
+mkdir /etc/stud
