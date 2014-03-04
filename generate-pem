@@ -1,12 +1,13 @@
 #!/bin/bash
 
+# inspired by dscape/couchdb
+
 mkdir ~/keys
 cd ~/keys
 
 #
 # create a private key
 #
-# ssh-keygen -t rsa -N "" -f ~/keys/id_stud
 openssl genrsa -out id_stud 1024
 
 #
