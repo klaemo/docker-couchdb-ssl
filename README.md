@@ -1,6 +1,8 @@
 Dockerized CouchDB with stud SSL terminator
 ===
 
+Make your CouchDB a straight A SSL student!
+
 Version: `CouchDB 1.5.0` and `stud 0.3`
 
 ## Run
@@ -25,6 +27,9 @@ curl -k https://localhost:6984
 * exposes couchdb on port `5984` (http) and `6984`(https) of the container
 * runs everything as non-root user (security ftw!)
 * keeps couchdb and stud running with `mon` (reliability ftw!)
+* stud is configured with a list of preferable cipher suites (more security win!!11)
+
+Your CouchDB will get a __straight A__ on the [SSL Labs Server Test](https://www.ssllabs.com/ssltest/)!
 
 ## Build your own
 
@@ -56,3 +61,4 @@ et voilá you have your own CouchDB instance with SSL support on port 6984.
 ## Credits
 
 * thanks @dscape for [this article](https://medium.com/code-adventures/35c45ce2a814)
+* [hynek.me](https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/) and [mozilla](https://wiki.mozilla.org/Security/Server_Side_TLS) for the resources on SSL/TLS configuration
