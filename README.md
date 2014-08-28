@@ -14,10 +14,10 @@ __Note:__ Out of the box bogus self-signed certificates are being used (see `gen
 You should replace them with your real pem file (see below).
 
 ```bash
-[sudo] docker pull klaemo/couchdb-ssl
+[sudo] docker pull klaemo/couchdb-ssl:latest
 
 # expose it to the world on port 6984
-[sudo] docker run -d -p 6984:6984 -name couchdb klaemo/couchdb-ssl
+[sudo] docker run -d -p 6984:6984 --name couchdb klaemo/couchdb-ssl
 
 curl -k https://localhost:6984
 ```
@@ -51,7 +51,7 @@ ADD stud.pem /usr/local/etc/stud/
 and then build and run it
 
 ```
-[sudo] docker build -rm -t you/awesome-couchdb .
+[sudo] docker build -t you/awesome-couchdb .
 [sudo] docker run -d -p 5984:5984 -p 6984:6984 you/awesome-couchdb
 ```
 
