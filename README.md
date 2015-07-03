@@ -80,6 +80,8 @@ To append some DH parameters:
 openssl dhparam -rand - 1024 >> stud.pem
 ```
 
+**NOTE**: For higher key size negotiation, you may wish to create a 2048 or 4096 bit dhparams file.  Just change the number above.
+
 ## Credits
 
 * thanks @dscape for [this article](https://medium.com/code-adventures/35c45ce2a814)
