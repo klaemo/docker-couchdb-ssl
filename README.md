@@ -3,6 +3,8 @@ Dockerized CouchDB with stud SSL terminator
 
 Make your CouchDB a straight A SSL student!
 
+**NOTE**: This image uses [Stud](https://github.com/bumptech/stud) to provide the SSL/TLS endpoint.  CouchDB's SSL features are unused.
+
 Version: `CouchDB 1.6.0` and `stud 0.3`
 
 ## Run
@@ -35,8 +37,8 @@ Your CouchDB will get a __straight A__ on the [SSL Labs Server Test](https://www
 You can use `klaemo/couchdb-ssl` as the base image for your own couchdb instance.
 You might want to provide your own version of the following files:
 
-* `local.ini` for CouchDB
-* `stud.conf` for stud
+* `local.ini` for CouchDB.
+* `stud.conf` for Stud configuration.
 * `stud.pem` is the (you guessed it) pem file.
 
 Example Dockerfile:
@@ -56,6 +58,27 @@ and then build and run it
 ```
 
 et voilá you have your own CouchDB instance with SSL support on port 6984.
+
+### stud.pem format
+The `stud.pem` file contains your SSL key, certificates and DH parameters.
+
+Specifically, the following information:
+* The server's private key
+* The server's certificate (signing its private key)
+* (Optionally) Intermediate certificates
+* (Optionally, recommended) DH parameters
+
+If you don't provide one, an automatically generated file will be used, containing a self-signed certificate.
+
+To create the PEM file, something similar to the following:
+```sh
+cat server_key.pem server_cert.pem [intermediate_cert1.pem ...] > stud.pem
+```
+
+To append some DH parameters:
+```sh
+openssl dhparam -rand - 1024 >> stud.pem
+```
 
 ## Credits
 
