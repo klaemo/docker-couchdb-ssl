@@ -76,12 +76,15 @@ writing RSA key
 $ rm server.pass.key
 $ openssl req -new -key server.key -out server.csr
 ...
-Country Name (2 letter code) [AU]:US
-State or Province Name (full name) [Some-State]:California
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
 ...
 A challenge password []:
 ...
 $ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+Signature ok
+subject=/C=AU/ST=Some-State/O=Internet Widgits Pty Ltd/CN=localhost
+Getting Private key
 ```
 
 ### Generate strong Diffie-Helman parameters
