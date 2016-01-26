@@ -2,23 +2,29 @@ FROM klaemo/couchdb:latest
 
 MAINTAINER Clemens Stolle klaemo@fastmail.fm
 
-RUN apt-get update && apt-get install -y openssl make curl libev4 libssl-dev libev-dev \
-  && mkdir /usr/src/stud && cd /usr/src/stud \
-  && curl -sSL# https://github.com/bumptech/stud/archive/master.tar.gz | tar zx --strip 1 \
-  && make && make install \
-  && rm -r /usr/src/stud \
-  && apt-get purge binutils make cpp gcc libssl-dev libev-dev -y \
-  && apt-get autoremove -y \
-  && rm -rf /var/lib/apt/lists/* 
+# use nginx install installation from official dockerfile
+# https://github.com/nginxinc/docker-nginx/blob/master/Dockerfile
+ENV NGINX_VERSION 1.9.9-1~jessie
 
-ADD stud.conf /usr/local/etc/stud/
-ADD generate-pem /root/
-ADD entrypoint-stud.sh /
-ADD stud-config /opt/
+RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+ && echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+ && apt-get update \
+ && apt-get install -y ca-certificates nginx=${NGINX_VERSION} gettext-base \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN /root/generate-pem
-RUN /opt/stud-config
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /var/log/nginx/access.log \
+ && ln -sf /dev/stderr /var/log/nginx/error.log
 
-EXPOSE 6984
-ENTRYPOINT ["/entrypoint-stud.sh"]
+# add config and dummy certificates for localhost
+COPY nginx.conf /etc/nginx/
+COPY server.crt /etc/nginx/certs/server.crt
+COPY server.key /etc/nginx/certs/server.key
+COPY dhparams.pem /etc/nginx/certs/dhparams.pem
 
+# create cert chain for OCSP
+RUN cd /etc/nginx/certs && cat server.key server.crt dhparams.pem > chain.pem
+
+COPY entrypoint-nginx.sh /
+
+ENTRYPOINT ["/entrypoint-nginx.sh"]
