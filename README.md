@@ -114,4 +114,9 @@ $ cat server.key server.crt [intermediate_cert1.pem ...] dhparams.pem > chain.pe
 ## Credits
 
 * thanks @dscape for [this article](https://medium.com/code-adventures/35c45ce2a814)
-* [hynek.me](https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/) and [mozilla](https://wiki.mozilla.org/Security/Server_Side_TLS) for the resources on SSL/TLS configuration
+* [hynek.me](https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/)
+* [mozilla](https://wiki.mozilla.org/Security/Server_Side_TLS) for the resources on SSL/TLS configuration
+
+## Contributors
+
+* [Mirco Zeiss](https://github.com/zemirco)
