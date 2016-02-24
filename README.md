@@ -120,3 +120,7 @@ $ cat server.key server.crt [intermediate_cert1.pem ...] dhparams.pem > chain.pe
 ## Contributors
 
 * [Mirco Zeiss](https://github.com/zemirco)
+
+## License
+
+Apache License 2.0
